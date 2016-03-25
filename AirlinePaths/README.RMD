@@ -1,0 +1,193 @@
+---
+title: "Assignment5"
+author: "Shakti Patro & Kavya Nagendrakumar"
+date: "March 09, 2016"
+output: pdf_document
+---
+## Authors : Shakti Patro, Kavya Nagendrakumar
+
+
+## Description:
+This assignment's objective was to compute missed connections for all two-hop paths. Fro this we calculated the total nummber of connections and missed connections for a each carrier for each year. This assigment 
+
+
+## Code Analysis
+ 
+In this assignemnt, we learnt to use WholeFileInputFormat, which is used to load the whole file as a input split.
+This was very helpful in the scenario as we were able to do most of our calculations in the mapper and reducer load was drastically decreased. Following are the important bullets in our code design.
+
+1. As we knew that each file was a month's data, so we decided to use the WholeFileInputFormat. We had to implement the Format class and a reader class for this. Also we had to use Buffered stream reader to read the whole file as bytes. This helped to read each line of data.
+
+2. In the mapper, we used a Map to store the values , key is CompositeKey(carrier, year) and value is compositeKey(carrier,year,  cancelled, connections, missedConnections, actual, scheduled, isArriving, airport). After aggregating all file data , we used two for loops to iterate over data and calculate connections and missed connections.
+
+3. For handling the month rollover, we had to send all data which were in the 6 hours range in the last day of month for arriving flights and first day of month for departing flights.
+
+4. The reducer calculates the monthly rollover and aggregates with the connections for a carrier and year.
+
+## Device Properties
+
+__LOCAL__ :
+
+OS        : MacBook Pro (Retina, 13-inch, Early 2015) 
+
+Processor : 2.7 GHz Intel Core i5
+
+Memeory   : 8 GB 1867 MHz DDR3
+
+__AWS__ :
+
+Instance Count = 11(1 Master , 10 Slaves)
+
+Master Instance Type = m3.xlarge
+
+Slave Instance Type = m3.xlarge
+
+
+## Runs and Outputs
+
+__On Cluster (25 Files)__ : 
+
+Time Taken :
+
+Run 1:    15.7 min
+
+Run 2:    7min
+
+__On Cluster (336 Files)__ :
+
+Time Taken : 9min
+
+
+## Plots:
+
+__(using 336 files data)__
+
+* Plot 1 shows the number of connections for each Carrier 
+
+* Plot 2 shows missed connections for each carrier per year.
+
+```{r, echo=FALSE}
+options( warn = -1 )
+suppressMessages(require("plyr"))
+suppressMessages(require("dplyr"))
+suppressMessages(require("ggplot2"))
+suppressMessages(require("reshape2"))
+
+s<- read.delim(file = "output/all_files_336", sep = "\t", col.names = c("Carrier", "Year", "Connections", "Missed"))
+s["Year2"] <- as.Date(paste(s$Year,"-01-01",sep=""))
+qplot(Year2, log(Connections), data = s, colour = Carrier, geom = "line", position = "stack")
+
+qplot(Year2, log(Missed), data = s, colour = Carrier, geom = "line", position = "stack")
+
+```
+
+\pagebreak
+
+* Plot 3 shows missed connection rate for all carriers. The larger bubbles show larger missed connection for carrier.
+
+```{r, echo=FALSE}
+ggplot(s, aes(as.factor(Year), as.factor(Carrier))) + geom_point(aes(size = log(Missed))) + ggtitle("Figure 3: Missed rate of Carriers")
+
+```
+
+\pagebreak
+
+### Data: (For 25 Files)
+Carrier | 		YEAR  | Connections   | Missed Connections 
+------- | --------- | ------------- | ------------------
+AA		  |		2015		|		1781027			|		67315
+B6	  	|		2015		|		2017887			|		78178
+UA		  |		2015		|		2829106			|		109938
+AA		  |		2014		|		23622025		|		884784
+B6		  |		2014		|		26538414		|		1020237
+UA		  |		2014		|		37945479		|		1522214
+DL	  	|		2013		|		43072219		|		1319285
+VX		  |		2013		|		43418895		|		1331841
+DL		  |		2014		|		48910845		|		1384028
+EV		  |		2013		|		68282609		|		2327700
+NK		  |		2015		|		68317678		|		2329623
+VX		  |		2014		|		68669818		|		2342341
+WN		  |		2013		|		96081937		|		3112888
+YV		  |		2013		|		97435843		|		3174420
+9E		  |		2013		|		6115190			|		226149
+DL		  |		2015		|		9976851			|		321519
+EV		  |		2014		|		25463846		|		1137540
+FL		  |		2013		|		28141530		|		1265406
+VX		  |		2015		|		28167467		|		1266186
+WN		  |		2014		|		56870685		|		2219372
+EV		  |		2015		|		984590			|		48291
+F9		  |		2013		|		2067725			|		95425
+FL		  |		2014		|		2944461			|		125886
+HA		  |		2013		|		3954681			|		152731
+WN		  |		2015		|		6342134			|		222086
+AS		  |		2013		|		1626305			|		54482
+F9		  |		2014		|		2653241			|		109023
+HA		  |		2014		|		3710768			|		141629
+MQ		  |		2013		|		15555241		|		703877
+OO		  |		2013		|		28038139		|		1278960
+US		  |		2013		|		40221204		|		1633161
+AS		  |		2014		|		1756888			|		68926
+F9		  |		2015		|		1795915			|		71458
+HA		  |		2015		|		1887598			|		74837
+MQ		  |		2014		|		11285367		|		551369
+OO		  |		2014		|		22768926		|		1125520
+US		  |		2014		|		34844551		|		1491402
+AA		  |		2013		|		23184019		|		716082
+AS		  |		2015		|		23321263		|		721395
+B6		  |		2013		|		26121219		|		859997
+MQ		  |		2015		|		26834390		|		898859
+OO		  |		2015		|		27658475		|		947767
+UA		  |		2013		|		39467666		|		1436218
+US		  |		2015		|		40419755		|		1467149
+
+\pagebreak
+
+### Data: (For 336 Files)
+
+Carrier | 		YEAR  | Connections   | Missed Connections 
+------- | --------- | ------------- | ------------------
+AA		  |		2014		|		23622025		|		884784
+B6		  |		2014		|		26538414		|		1020237
+UA	  	|		2014		|		37945479		|		1522214
+AA	  	|		2015		|		1781027		  |		67315
+B6		  |		2015		|		2017887		  |		78178
+UA		  |		2015		|		2829106		  |		109938
+DL		  |		2013		|		43072219		|		1319285
+VX		  |		2013		|		43418895		|		1331841
+DL		  |		2014		|		48910845		|		1384028
+EV		  |		2013		|		68282609		|		2327700
+NK		  |		2015		|		68317678		|		2329623
+VX		  |		2014		|		68669818		|		2342341
+WN		  |		2013		|		96081937		|		3112888
+YV		  |		2013		|		97435843		|		3174420
+9E	  	|		2013		|		6115190		  |		226149
+DL		  |		2015		|		9976851		  |		321519
+EV		  |		2014		|		25463846		|		1137540
+FL		  |		2013		|		28141530		|		1265406
+VX		  |		2015		|		28167467		|		1266186
+WN		  |		2014		|		56870685		|		2219372
+EV		  |		2015		|		984590		  |		48291
+F9		  |		2013		|		2067725		  |		95425
+FL		  |		2014		|		2944461		  |		125886
+HA		  |		2013		|		3954681		  |		152731
+WN		  |		2015		|		6342134		  |		222086
+AS		  |		2013		|		1626305		  |		54482
+F9		  |		2014		|		2653241		  |		109023
+HA		  |		2014		|		3710768		  |		141629
+MQ		  |		2013		|		15555241		|		703877
+OO		  |		2013		|		28038139		|		1278960
+US		  |		2013		|		40221204		|		1633161
+AS		  |		2014		|		1756888	  	|		68926
+F9		  |		2015		|		1795915	  	|		71458
+HA		  |		2015		|		1887598		  |		74837
+MQ		  |		2014		|		11285367		|		551369
+OO		  |		2014		|		22768926		|		1125520
+US		  |		2014		|		34844551		|		1491402
+AA		  |		2013		|		23184019		|		716082
+AS		  |		2015		|		23321263		|		721395
+B6		  |		2013		|		26121219		|		859997
+MQ		  |		2015		|		26834390		|		898859
+OO		  |		2015		|		27658475		|		947767
+UA		  |		2013		|		39467666		|		1436218
+US		  |		2015		|		40419755		|		1467149
+
