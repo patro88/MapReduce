@@ -1,0 +1,3 @@
+pwd
+cls
+setwd("~/Documents/CS6240/AirlinePrediction/")

@@ -1,0 +1,24 @@
+12 	ac= 203972 	tc= 116921 	fc= 87051 	true to false err= 84673 	false to true err= 1914 	pred Ontime act Late 0.72 	pred Late act Ontime 0.02 	total  0.42 
+
+1 	ac= 188659 	tc= 99289 	fc= 89370 	true to false err= 88969 	false to true err= 333 	pred Ontime act Late 0.9 	pred Late act Ontime 0 	total  0.47 
+
+11 	ac= 213765 	tc= 94436 	fc= 119329 	true to false err= 111864 	false to true err= 4358 	pred Ontime act Late 1.18 	pred Late act Ontime 0.04 	total  0.54 
+
+10 	ac= 225207 	tc= 107290 	fc= 117917 	true to false err= 111900 	false to true err= 4347 	pred Ontime act Late 1.04 	pred Late act Ontime 0.04 	total  0.52 
+
+4 	ac= 221310 	tc= 111236 	fc= 110074 	true to false err= 93671 	false to true err= 12837 	pred Ontime act Late 0.84 	pred Late act Ontime 0.12 	total  0.48 
+
+2 	ac= 200794 	tc= 106052 	fc= 94742 	true to false err= 91375 	false to true err= 2777 	pred Ontime act Late 0.86 	pred Late act Ontime 0.03 	total  0.47 
+
+3 	ac= 228631 	tc= 120521 	fc= 108110 	true to false err= 104319 	false to true err= 3567 	pred Ontime act Late 0.87 	pred Late act Ontime 0.03 	total  0.47 
+
+5 	ac= 224157 	tc= 117817 	fc= 106340 	true to false err= 102421 	false to true err= 3036 	pred Ontime act Late 0.87 	pred Late act Ontime 0.03 	total  0.47 
+
+6 	ac= 217351 	tc= 124357 	fc= 92994 	true to false err= 80947 	false to true err= 12349 	pred Ontime act Late 0.65 	pred Late act Ontime 0.13 	total  0.43 
+
+7 	ac= 227828 	tc= 112367 	fc= 115461 	true to false err= 98616 	false to true err= 11390 	pred Ontime act Late 0.88 	pred Late act Ontime 0.1 	total  0.48 
+
+8 	ac= 232486 	tc= 114626 	fc= 117860 	true to false err= 114398 	false to true err= 2055 	pred Ontime act Late 1 	pred Late act Ontime 0.02 	total  0.5 
+
+9 	ac= 218673 	tc= 92440 	fc= 126233 	true to false err= 121232 	false to true err= 2511 	pred Ontime act Late 1.31 	pred Late act Ontime 0.02 	total  0.57 
+
