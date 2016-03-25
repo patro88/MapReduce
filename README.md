@@ -1,7 +1,6 @@
 # MapReduce
 Assignments and Project for class CS6240
 
-assignments
 ## A0 - Inhale.
 
 The Bureau of Transport Statistics' On-time Performance (OTP) dataset has information about flights in the USA. The full dataset covers 27 years of air travel and is over 60GB in plain text. For this assignment you should answer the question: Which airlines have the least expensive fares? 
