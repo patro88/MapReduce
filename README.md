@@ -17,8 +17,7 @@ Fine print:
           if ArrDelay < 0 then ArrDelayMinutes should be zero
           if ArrDelayMinutes >= 15 then ArrDel15 should be true
   (5) Design the code with care as you will reuse it. Document and test it.  
-  (6) The reference solution is ~1KLOC and prints 4083 for K, 435940 for F and, for instance, "UA 545.62".   Processing time is ~5 seconds. (7) Submit your assignment in tar file  Monisha Singh, <msingh28@ccs.neu.edu>. The title of the mail must be "6240-V A0" followed by your name.
-  
+  (6) The reference solution is ~1KLOC and prints 4083 for K, 435940 for F and, for instance, "UA 545.62".   Processing time is ~5 seconds. 
 
 
 ## A1 - Threading. Airfares evolve with time, one month of traffic is not sufficient to answer which airline is the cheapest. Try with two years worth of OTP data. Improve throughput of your code with parallel processing primitives.
