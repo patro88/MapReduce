@@ -1,0 +1,90 @@
+---
+title: "MapReduce Assignment 3"
+authors: Shakti Patro, Kavya Nagendrakumar
+output: pdf_document
+---
+
+## Authors : Shakti Patro, Kavya Nagendrakumar
+
+## Description:
+The aim of this assignment is to conduct benchmarking to compare the cost of computing (A) mean and (B)
+median price, and (C) fast median for different environments ((i) singe threaded Java, (ii) multi-threaded
+Java, (iii) pseudo-distributed MR, and (iv) distributed MR - AWS EMR) using the Bureau of Transport
+Statistics’ On-time Performance (OTP) dataset which has over 27 years of air travel information about flights
+in the USA. In our program, sane records with Average ticket price missing or negative or higher than 100000
+will not be used to calculate mean ticket price.
+
+Below we are comapring some hypotheses we had before conducting the experiment with the results we got.
+
+
+***
+## Device Properties
+
+OS        : MacBook Pro (Retina, 13-inch, Early 2015) 
+Processor : 2.7 GHz Intel Core i5
+Memeory   : 8 GB 1867 MHz DDR3
+
+***
+
+```{r echo = FALSE}
+require(ggplot2)
+#read.csv("results.csv", header = FALSE)
+s <- data.frame(read.csv("results.csv", header = FALSE))
+colnames(s) = c("Environment","mode","Time")
+print(ggplot(s,aes(mode,Time, fill=interaction(mode,Environment), dodge=Environment)) 
+      + stat_boxplot(geom ='errorbar')
+      + geom_boxplot()
+      + scale_fill_manual(values=c("orange","darkcyan","cyan", 
+                                   "darkcyan","cyan",
+                                   "orange", "darkcyan","cyan",
+                                  "darkcyan","cyan"))
+      + scale_y_continuous(name="Time (in seconds)"))
+
+```
+
+
+## Analysis:
+
+**Hypothesis 1 :**
+Code runs faster on multithreading mode as compared to single threaded mode 
+
+**Interpretation :** 
+From the graph we, since most of the times multithreaded code takes very less than single threaded, it is  
+safe to conclude that multithreading runs faster than single threaded mode irrespective of the function running.
+
+****
+
+**Hypothesis 2 :**
+Mean computes faster than median on any environment
+
+**Interpretation :** 
+From the graph above we can conclude that our hypothesis is true. The median is always slower, on all environments than the mean calculation.
+
+***
+
+**Hypothesis 3 :**
+Running mapreduce job on local machine is slower than on emr
+
+**Interpretation :** 
+Due to the availablity of larger no. of clusters than the local which uses just one cluster, the emr version of the job seems to be faster. There is not much variability in the plot which can also be due to less number of experiments done. But with this result, its pretty convincing that the emr is faster than local pseudo mode.
+
+***
+
+**Hypothesis 4 :**
+Fast median should be faster as compared to normal median. 
+
+**Interpretation :** 
+Fast median is not showing faster results as we expected. The algorithm used needs to be checked again. There is possibility that in a large dataset the run time changes drastically. 
+
+***
+
+**Hypothesis 5 :**
+Code running in plain mode >> faster than >>  on emr >> faster than >> on pseudo
+
+**Interpretation :** 
+All the operations seem to follow this trend. We can see that the plain mode is the fastest. Then on aws which utlizes the clusters to gain some speed. The local hdfs is the slowest as it runs on a single cluster.
+
+***
+
+### Conclusion
+In conclusion, we can say that most of our hypothesis done before the experiment ,seem to be true. The emr job is the slowest which tells us that the network bandwidth and cluster bandwidth on emr is more limiting than the spill time on local machine. Also the fast median algorithm used is not showing very fast improvements over the usual median. Apart from these, we successfully approved our hypotheses.
