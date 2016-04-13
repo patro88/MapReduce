@@ -32,9 +32,9 @@ public class App {
 	
 	public static void main(String[] args) throws IOException {
 
-		bucket = "patrosp";
-		key = "AKIAJZ4FWRH2QNRPVK6Q";
-		pwd = "Bdfi6I4OGmmxUqyVgkifgXzfbGPhGPG4aAqJ9ic2";
+		bucket = "";
+		key = "";
+		pwd = "";
 		s3 = new AmazonS3Client(new BasicAWSCredentials(key, pwd));
 		
 		if(args[0].equals("master")) {
